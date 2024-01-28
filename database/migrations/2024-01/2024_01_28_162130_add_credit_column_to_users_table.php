@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::table(
             'users',
             function (Blueprint $table) {
-                $table->integer('credit')->default(0);
+                $table->float('credit')->default(0);
             }
         );
     }

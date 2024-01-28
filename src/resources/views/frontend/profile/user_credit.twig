@@ -1,0 +1,16 @@
+<form id="form-user-credit">
+    <div class="form-group col-md-12">
+        <label for="credit">{{ __('Credit') }}</label>
+        <input class="form-control" type="number" name="credit" data-rule-min="{{ config('min_credit') }}">
+    </div>
+    <div class="form-group col-md-12">
+        <select name="method" class="form-control" required>
+            {% for method in paymentMethods %}
+            <option value="{{ method.method }}">{{ method.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group float-right mb-4">
+        <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+    </div>
+</form>

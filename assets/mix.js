@@ -11,9 +11,3 @@ mix.styles(
     ],
     `${basePublish}/css/frontend/user_credit.min.css`
 );
-mix.combine(
-    [
-        `${baseStyles}/js/frontend/user_credit.js`,
-    ],
-    `${basePublish}/js/frontend/user_credit.min.js`
-);

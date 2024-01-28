@@ -15,10 +15,6 @@ class FrontendAction extends Action
 
      public function enqueueStyles(): void
     {
-        $this->hookAction->enqueueFrontendScript(
-            'subs-js',
-            plugin_asset('js/frontend/user_credit.min.js', 'juzaweb/user-credit')
-        );
         $this->hookAction->enqueueFrontendStyle(
             'subs-css',
             plugin_asset('css/frontend/user_credit.min.css', 'juzaweb/user-credit')

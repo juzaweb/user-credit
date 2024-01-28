@@ -19,7 +19,7 @@ class ConfigAction extends Action
     public function addAdminConfigs(): void
     {
         $this->addAdminMenu(
-            trans('User Credit'),
+            __('User Credit'),
             'user-credits',
             [
                 'icon' => 'fa fa-plus',
@@ -29,7 +29,7 @@ class ConfigAction extends Action
         $this->hookAction->registerSettingPage(
             'user-credit-submission',
             [
-                'label' => trans('Settings'),
+                'label' => __('Settings'),
                 'view' => 'cms::user_credit.index',
                 'menu' => [
                     'parent' => 'user-credits',
@@ -42,7 +42,7 @@ class ConfigAction extends Action
         $this->hookAction->addSettingForm(
             'user-credit-submission',
             [
-                'name' => trans('User Credit'),
+                'name' => __('User Credit'),
                 'priority' => 1,
                 'page' => 'user-credit-submission',
             ]
@@ -52,11 +52,11 @@ class ConfigAction extends Action
         $this->hookAction->registerConfig(
             [
                 'user_credit_min_prepaid_credit' => [
-                    'label' => __('min credit'),
+                    'label' => __('Min Prepaid Credit'),
                     'form' => 'user-credit-submission',
                 ],
                 'user_credit_convert' => [
-                    'label' => __('convert'),
+                    'label' => __('Convert'),
                     'form' => 'user-credit-submission',
                 ],
             ]

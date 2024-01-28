@@ -12,10 +12,6 @@ class FrontendAction extends Action
         $this->addAction(Action::FRONTEND_INIT, [$this, 'registerProfilePages']);
     }
 
-     public function enqueueStyles(): void
-    {
-    }
-
     public function registerProfilePages(): void
     {
         $this->hookAction->registerProfilePage(

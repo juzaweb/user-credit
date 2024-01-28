@@ -1,0 +1,13 @@
+<form class="form-validate">
+    <div class="form-group col-md-12">
+        <label for="credit">{{ __('Credit') }}</label>
+        <input class="form-control" type="number" name="credit" data-rule-min="{{ config('user_credit_min_prepaid_credit') }}" required>
+    </div>
+    <div class="form-group col-md-12">
+        <select name="method" class="form-control" required>
+        </select>
+    </div>
+    <div class="form-group float-right mb-4">
+        <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+    </div>
+</form>

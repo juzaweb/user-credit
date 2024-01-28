@@ -51,11 +51,11 @@ class ConfigAction extends Action
 
         $this->hookAction->registerConfig(
             [
-                'min_credit' => [
+                'user_credit_min_prepaid_credit' => [
                     'label' => __('min credit'),
                     'form' => 'user-credit-submission',
                 ],
-                'convert' => [
+                'user_credit_convert' => [
                     'label' => __('convert'),
                     'form' => 'user-credit-submission',
                 ],

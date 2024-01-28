@@ -1,3 +1,3 @@
 $(function () {
-    $("#form-user-credit").validate();
+    $(".form-validate").validate();
 })

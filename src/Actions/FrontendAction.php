@@ -32,12 +32,6 @@ class FrontendAction extends Action
             [
                'title' => __('User credit'),
                'contents' => 'user_credit::frontend.profile.user_credit',
-               'data' => [
-                    'paymentMethods' => fn () => PaymentMethodResource::collection(
-                        PaymentMethod::where(['module' => 'membership'])->get()
-                    )
-                        ->response()->getData(true)['data'],
-                ],
             ]
         );
     }

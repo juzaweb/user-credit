@@ -32,7 +32,7 @@ class FrontendAction extends Action
         if (get_config('user_credit_give_credits_every_day_enable')) {
             $seconds = now()->diffInSeconds(now()->endOfDay());
 
-            Cache::remember('userCreditDailyGiveCreditHistories', $seconds, function() use ($user) {
+            Cache::remember('user_credit_daily_give_credit_histories', $seconds, function() use ($user) {
                 $exsistHistoryLog = UserCreditDailyGiveCreditHistory::where('user_id', $user->id)
                     ->whereDate('created_at', '=', now()->format('Y-m-d'))
                     ->exists();

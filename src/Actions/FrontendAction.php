@@ -1,7 +1,6 @@
 <?php
 namespace Juzaweb\UserCredit\Actions;
 
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -31,9 +30,8 @@ class FrontendAction extends Action
     {
         $user = request()->user();
         if (get_config('user_credit_give_credits_every_day_enable')) {
-            $now = Carbon::now();
-            $endOfDay = Carbon::now()->endOfDay();
-            $seconds = $now->diffInSeconds($endOfDay);
+            $seconds = now()->diffInSeconds(now()->endOfDay());
+
             Cache::remember('userCreditDailyGiveCreditHistories', $seconds, function() use ($user) {
                 $exsistHistoryLog = UserCreditDailyGiveCreditHistory::where('user_id', $user->id)
                     ->whereDate('created_at', '=', now()->format('Y-m-d'))

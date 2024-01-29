@@ -1,10 +1,10 @@
 <?php
 namespace Juzaweb\UserCredit\Actions;
 
-use Cache;
 use Carbon\Carbon;
-use DB;
 use Exception;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Juzaweb\CMS\Abstracts\Action;
 use Juzaweb\UserCredit\Models\UserCreditDailyGiveCreditHistory;
 
@@ -34,19 +34,19 @@ class FrontendAction extends Action
             $now = Carbon::now();
             $endOfDay = Carbon::now()->endOfDay();
             $seconds = $now->diffInSeconds($endOfDay);
-            Cache::remember('users', $seconds, function() use ($user) {
+            Cache::remember('userCreditDailyGiveCreditHistories', $seconds, function() use ($user) {
                 $exsistHistoryLog = UserCreditDailyGiveCreditHistory::where('user_id', $user->id)
                     ->whereDate('created_at', '=', now()->format('Y-m-d'))
                     ->exists();
                 if (!$exsistHistoryLog) {
                     DB::beginTransaction();
                     try {
-                        $UserCreditDailyGiveCreditHistory = new UserCreditDailyGiveCreditHistory();
-                        $UserCreditDailyGiveCreditHistory->user_id = $user->id;
-                        $UserCreditDailyGiveCreditHistory->credit = get_config('user_credit_number_of_credits_given_each_day');
-                        $UserCreditDailyGiveCreditHistory->save();
+                        $userCreditDailyGiveCreditHistory = new UserCreditDailyGiveCreditHistory();
+                        $userCreditDailyGiveCreditHistory->user_id = $user->id;
+                        $userCreditDailyGiveCreditHistory->credit = get_config('user_credit_number_of_credits_given_each_day');
+                        $userCreditDailyGiveCreditHistory->save();
 
-                        $user->increment('credit', $UserCreditDailyGiveCreditHistory->credit);
+                        $user->increment('credit', $userCreditDailyGiveCreditHistory->credit);
                         DB::commit();
                     } catch (Exception $e) {
                         DB::rollBack();

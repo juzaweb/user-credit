@@ -15,7 +15,8 @@ return new class extends Migration {
         Schema::table(
             'users',
             function (Blueprint $table) {
-                $table->float('credit_holdback')->default(0);
+                $table->bigInteger('credit_holdback')->default(0);
+                $table->bigInteger('credit')->default(0)->change();
             }
         );
     }

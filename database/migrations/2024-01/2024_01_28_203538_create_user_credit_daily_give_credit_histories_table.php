@@ -13,11 +13,11 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create(
-            'user_credit_history_logs',
+            'user_credit_daily_give_credit_histories',
             function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('user_id')->index();
-                $table->float('number');
+                $table->bigInteger('credit');
                 $table->date('create_day')->storedAs('DATE(created_at)')->nullable();
                 $table->timestamps();
 

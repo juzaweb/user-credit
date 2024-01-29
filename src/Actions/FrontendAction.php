@@ -1,10 +1,12 @@
 <?php
 namespace Juzaweb\UserCredit\Actions;
 
+use Cache;
+use Carbon\Carbon;
 use DB;
 use Exception;
 use Juzaweb\CMS\Abstracts\Action;
-use Juzaweb\UserCredit\Models\UserCreditHistoryLog;
+use Juzaweb\UserCredit\Models\UserCreditDailyGiveCreditHistory;
 
 class FrontendAction extends Action
 {
@@ -29,24 +31,30 @@ class FrontendAction extends Action
     {
         $user = request()->user();
         if (get_config('user_credit_give_credits_every_day_enable')) {
-            $exsistHistoryLog = UserCreditHistoryLog::where('user_id', $user->id)
-            ->whereDate('created_at', '=', now()->format('Y-m-d'))
-            ->exists();
-            if (!$exsistHistoryLog) {
-                DB::beginTransaction();
-                try {
-                    $userCreditHistoryLog = new UserCreditHistoryLog();
-                    $userCreditHistoryLog->user_id = $user->id;
-                    $userCreditHistoryLog->number = get_config('user_credit_number_of_credits_given_each_day');
-                    $userCreditHistoryLog->save();
+            $now = Carbon::now();
+            $endOfDay = Carbon::now()->endOfDay();
+            $seconds = $now->diffInSeconds($endOfDay);
+            Cache::remember('users', $seconds, function() use ($user) {
+                $exsistHistoryLog = UserCreditDailyGiveCreditHistory::where('user_id', $user->id)
+                    ->whereDate('created_at', '=', now()->format('Y-m-d'))
+                    ->exists();
+                if (!$exsistHistoryLog) {
+                    DB::beginTransaction();
+                    try {
+                        $UserCreditDailyGiveCreditHistory = new UserCreditDailyGiveCreditHistory();
+                        $UserCreditDailyGiveCreditHistory->user_id = $user->id;
+                        $UserCreditDailyGiveCreditHistory->credit = get_config('user_credit_number_of_credits_given_each_day');
+                        $UserCreditDailyGiveCreditHistory->save();
 
-                    $user->increment('credit', $userCreditHistoryLog->number);
-                    DB::commit();
-                } catch (Exception $e) {
-                    DB::rollBack();
-                    throw $e;
+                        $user->increment('credit', $UserCreditDailyGiveCreditHistory->credit);
+                        DB::commit();
+                    } catch (Exception $e) {
+                        DB::rollBack();
+                        throw $e;
+                    }
                 }
-            }
+                return true;
+            });
         }
     }
 }

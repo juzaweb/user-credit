@@ -5,6 +5,7 @@ namespace Juzaweb\UserCredit\Actions;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Juzaweb\CMS\Abstracts\Action;
+use Juzaweb\CMS\Models\User;
 use Juzaweb\PaymentMethod\Http\Resources\PaymentMethodResource;
 use Juzaweb\PaymentMethod\Models\PaymentMethod;
 use Juzaweb\UserCredit\Models\UserCreditDailyGiveCreditHistory;
@@ -15,6 +16,7 @@ class FrontendAction extends Action
     {
         $this->addAction(Action::FRONTEND_INIT, [$this, 'registerProfilePages']);
         $this->addAction(Action::FRONTEND_INIT, [$this, 'addCreditsGivenEachDay']);
+        $this->addFilter('user.resouce_data', [$this, 'addCreditToTheme'], 20, 2);
     }
 
     public function registerProfilePages(): void
@@ -23,6 +25,7 @@ class FrontendAction extends Action
             'buy-credit',
             [
                 'title' => __('Buy Credit'),
+                'icon' => 'fa fa-credit-card',
                 'contents' => 'user_credit::frontend.profile.buy_credit',
                 'data' => [
                     'paymentMethods' => fn () => PaymentMethodResource::collection(PaymentMethod::query()
@@ -61,5 +64,12 @@ class FrontendAction extends Action
                 return true;
             });
         }
+    }
+
+    public function addCreditToTheme(array $data, User $user): array
+    {
+        $data['credit'] = $user->credit;
+
+        return $data;
     }
 }

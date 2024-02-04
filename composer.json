@@ -2,7 +2,7 @@
     "name": "juzaweb/user-credit",
     "type": "juzaweb-plugin",
     "license": "MIT",
-    "description": "",
+    "description": "Add credit to user",
     "extra": {
         "juzaweb": {
             "name": "User Credit",
@@ -23,7 +23,8 @@
         }
     },
     "require": {
-        "php": "^8.0|^8.1"
+        "php": "^8.0|^8.1",
+        "juzaweb/payment-method": "*"
     },
     "require-dev": {
          "juzaweb/modules": "^1.0",

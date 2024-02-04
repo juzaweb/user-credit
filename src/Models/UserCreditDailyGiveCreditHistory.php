@@ -21,7 +21,6 @@ use Juzaweb\CMS\Models\Model;
  */
 class UserCreditDailyGiveCreditHistory extends Model
 {
-
     protected $table = 'user_credit_daily_give_credit_histories';
 
     protected $fillable = [

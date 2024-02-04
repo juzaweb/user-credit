@@ -3,6 +3,7 @@
 namespace Juzaweb\UserCredit\Actions;
 
 use Juzaweb\CMS\Abstracts\Action;
+use Juzaweb\PaymentMethod\Contracts\PaymentMethodManager;
 
 class ConfigAction extends Action
 {
@@ -14,6 +15,21 @@ class ConfigAction extends Action
     public function handle(): void
     {
         $this->addAction(Action::INIT_ACTION, [$this, 'addAdminConfigs']);
+        $this->addAction(Action::INIT_ACTION, [$this, 'addPaymentModule']);
+    }
+
+    public function addPaymentModule(): void
+    {
+        if (!plugin_enabled('juzaweb/payment-method')) {
+            return;
+        }
+
+        app()->make(PaymentMethodManager::class)->registerModule(
+            'user-credit',
+            [
+                'label' => __('Buy Credit'),
+            ]
+        );
     }
 
     public function addAdminConfigs(): void
@@ -26,6 +42,7 @@ class ConfigAction extends Action
                 'position' => 99,
             ]
         );
+
         $this->hookAction->registerSettingPage(
             'user-credit-submission',
             [

@@ -4,6 +4,7 @@ namespace Juzaweb\UserCredit\Actions;
 
 use Juzaweb\CMS\Abstracts\Action;
 use Juzaweb\PaymentMethod\Contracts\PaymentMethodManager;
+use Juzaweb\UserCredit\Support\PaymentHandler;
 
 class ConfigAction extends Action
 {
@@ -28,6 +29,8 @@ class ConfigAction extends Action
             'user-credit',
             [
                 'label' => __('Buy Credit'),
+                'thanks_page_url' => url('profile/buy-credit'),
+                'handler' => PaymentHandler::class,
             ]
         );
     }

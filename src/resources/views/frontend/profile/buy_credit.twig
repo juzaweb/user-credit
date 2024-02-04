@@ -1,9 +1,20 @@
 <form class="form-ajax" method="post" action="{{ url('ajax/payment/user-credit/purchase') }}">
+    <p><b>{{ __('Current Credit') }}</b>: {{ user.credit|default(0) }}</p>
+
     <div class="form-group">
-        <label for="amount">{{ __('Amount') }}</label>
+        <label for="amount">{{ __('Add Amount') }}</label>
         <input class="form-control" type="number" name="amount" id="amount"
                data-rule-min="{{ config('user_credit_min_prepaid_credit') }}"
                required
+               placeholder="{{ __('Min: $:amount', {amount: config('user_credit_min_prepaid_credit')}) }}"
+        >
+    </div>
+
+    <div class="form-group">
+        <label for="credit-get">{{ __('Get Credits') }}</label>
+        <input class="form-control" type="number" id="credit-get"
+               disabled
+               value="0"
         >
     </div>
 
@@ -11,10 +22,22 @@
         <label for="method">{{ __('Payment Method') }}</label>
         <select name="payment_method" id="method" class="form-control" required>
             {% for paymentMethod in paymentMethods %}
-            <option value="{{ paymentMethod.type }}">{{ paymentMethod.name }}</option>
+                <option value="{{ paymentMethod.type }}">{{ paymentMethod.name }}</option>
             {% endfor %}
         </select>
     </div>
 
     <button type="submit" class="btn btn-primary">{{ __('Buy Credit') }}</button>
 </form>
+
+<script>
+    $(function () {
+        const convert = parseInt('{{ config('user_credit_convert', 1) }}');
+
+        $('#amount').on('change', function () {
+            let amount = $(this).val();
+
+            $('#credit-get').val(amount * convert);
+        });
+    });
+</script>

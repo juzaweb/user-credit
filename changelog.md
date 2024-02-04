@@ -1,3 +1,6 @@
+### v1.0.1 
+* :+1: Buy credit
+
 ### v1.0.0 
 * :+1: Buy credit
 * :bug: update style code

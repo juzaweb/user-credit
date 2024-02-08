@@ -68,7 +68,7 @@ class FrontendAction extends Action
 
     public function addCreditToTheme(array $data, User $user): array
     {
-        $data['credit'] = $user->credit;
+        $data['credit'] = $user->credit + $user->credit_holdback;
 
         return $data;
     }

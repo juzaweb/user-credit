@@ -40,7 +40,7 @@ class FrontendAction extends Action
     {
         $user = request()?->user();
 
-        if (get_config('user_credit_give_credits_every_day_enable')) {
+        if ($user && get_config('user_credit_give_credits_every_day_enable')) {
             $seconds = now()->diffInSeconds(now()->endOfDay());
 
             Cache::remember("user_credit_daily_give_credit_histories_{$user->id}", $seconds, function () use ($user) {

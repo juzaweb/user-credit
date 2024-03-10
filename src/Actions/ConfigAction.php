@@ -98,6 +98,25 @@ class ConfigAction extends Action
                     'label' => __('Number of credits given each day'),
                     'form' => 'user-credit-submission',
                 ],
+                'maximum_number_receive_of_credits' => [
+                    'label' => __('Maximum number receive of credits'),
+                    'form' => 'user-credit-submission',
+                ],
+                'receive_of_credits_each_day' => [
+                    'type' => 'select',
+                    'label' => __('Receive of credits each day'),
+                    'form' => 'user-credit-submission',
+                    'data' => [
+                        'options' => [
+                            0 => __('Auto receive'),
+                            1 => __('Attendance'),
+                        ],
+                        'validators' => [
+                            'required',
+                            'in:0,1'
+                        ],
+                    ],
+                ],
             ]
         );
     }

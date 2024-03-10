@@ -79,6 +79,29 @@ class ConfigAction extends Action
                     'label' => __('Convert'),
                     'form' => 'user-credit-submission',
                 ],
+                'user_credit_number_of_credits_given_each_day' => [
+                    'label' => __('Number of credits given each day'),
+                    'form' => 'user-credit-submission',
+                ],
+                'user_credit_maximum_number_receive_of_credits' => [
+                    'label' => __('Maximum number receive of credits'),
+                    'form' => 'user-credit-submission',
+                ],
+                'user_credit_receive_of_credits_each_day' => [
+                    'type' => 'select',
+                    'label' => __('Receive of credits each day'),
+                    'form' => 'user-credit-submission',
+                    'data' => [
+                        'options' => [
+                            0 => __('Auto receive'),
+                            1 => __('Attendance'),
+                        ],
+                        'validators' => [
+                            'required',
+                            'in:0,1'
+                        ],
+                    ],
+                ],
                 'user_credit_give_credits_every_day_enable' => [
                     'type' => 'select',
                     'label' => __('Give Credits Every Day Enable'),
@@ -93,10 +116,6 @@ class ConfigAction extends Action
                             'in:0,1'
                         ],
                     ]
-                ],
-                'user_credit_number_of_credits_given_each_day' => [
-                    'label' => __('Number of credits given each day'),
-                    'form' => 'user-credit-submission',
                 ],
             ]
         );

@@ -21,6 +21,7 @@ class FrontendAction extends Action
 
     public function registerProfilePages(): void
     {
+        $user = request()->user();
         $this->hookAction->registerProfilePage(
             'buy-credit',
             [
@@ -34,13 +35,41 @@ class FrontendAction extends Action
                 ]
             ]
         );
+
+        if (get_config('user_credit_give_credits_every_day_enable') && get_config('user_credit_receive_of_credits_each_day') == 1) {
+            $this->hookAction->registerProfilePage(
+                'attendance',
+                [
+                    'title' => __('Attendance'),
+                    'icon' => 'fa fa-credit-card',
+                    'contents' => 'user_credit::frontend.profile.attendance',
+                    'data' => [
+                        'showBtnAttendance' => function () use ($user) {
+                            $checkReceiveCreditToday = UserCreditDailyGiveCreditHistory::where('user_id', $user->id)
+                                ->whereDate('created_at', '=', now()->format('Y-m-d'))
+                                ->exists();
+                            $countReceiveCreditHistories = UserCreditDailyGiveCreditHistory::where('user_id', $user->id)
+                                ->count();
+
+                            if (!$checkReceiveCreditToday
+                                && $countReceiveCreditHistories < (int) get_config('user_credit_maximum_number_receive_of_credits')
+                            ) {
+                                return true;
+                            }
+
+                            return false;
+                        },
+                    ]
+                ]
+            );
+        }
     }
 
     public function addCreditsGivenEachDay(): void
     {
         $user = request()?->user();
 
-        if ($user && get_config('user_credit_give_credits_every_day_enable')) {
+        if ($user && get_config('user_credit_give_credits_every_day_enable') && get_config('user_credit_receive_of_credits_each_day') == 0) {
             $seconds = now()->diffInSeconds(now()->endOfDay());
 
             Cache::remember("user_credit_daily_give_credit_histories_{$user->id}", $seconds, function () use ($user) {

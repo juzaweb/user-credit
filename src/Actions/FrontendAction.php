@@ -36,7 +36,7 @@ class FrontendAction extends Action
             ]
         );
 
-        if (get_config('user_credit_give_credits_every_day_enable') && get_config('receive_of_credits_each_day') == 1) {
+        if (get_config('user_credit_give_credits_every_day_enable') && get_config('user_credit_receive_of_credits_each_day') == 1) {
             $this->hookAction->registerProfilePage(
                 'attendance',
                 [
@@ -52,7 +52,7 @@ class FrontendAction extends Action
                                 ->count();
 
                             if (!$checkReceiveCreditToday
-                                && $countReceiveCreditHistories < (int) get_config('maximum_number_receive_of_credits')
+                                && $countReceiveCreditHistories < (int) get_config('user_credit_maximum_number_receive_of_credits')
                             ) {
                                 return true;
                             }
@@ -69,7 +69,7 @@ class FrontendAction extends Action
     {
         $user = request()?->user();
 
-        if ($user && get_config('user_credit_give_credits_every_day_enable') && get_config('receive_of_credits_each_day') == 0) {
+        if ($user && get_config('user_credit_give_credits_every_day_enable') && get_config('user_credit_receive_of_credits_each_day') == 0) {
             $seconds = now()->diffInSeconds(now()->endOfDay());
 
             Cache::remember("user_credit_daily_give_credit_histories_{$user->id}", $seconds, function () use ($user) {

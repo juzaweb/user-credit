@@ -1,5 +1,6 @@
 {% if showBtnAttendance is same as(true) %}
     <form class="form-ajax" method="post" action="{{ url('ajax/user-credits/attendance') }}" data-success="attendance_success_handle">
+        <p>Take attendance to receive {{ config('user_credit_number_of_credits_given_each_day')|default(0) }} credits</p>
         <button type="submit" class="btn btn-primary">{{ __('Attendance') }}</button>
     </form>
 {% else %}

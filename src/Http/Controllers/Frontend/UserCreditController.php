@@ -28,11 +28,11 @@ class UserCreditController extends FrontendController
         $countReceiveCreditHistories = UserCreditDailyGiveCreditHistory::where('user_id', $user->id)->count();
 
         if ($receiveCreditToday) {
-            return $this->error(['message' => 'You attended today.']);
+            return $this->error(['message' => __('You attended today.')]);
         }
 
-        if ($countReceiveCreditHistories >= (int) get_config('Maximum_number_receive_of_credits')) {
-            return $this->error(['message' => 'The number of times attended exceeds the allowed number of times.']);
+        if ($countReceiveCreditHistories >= (int) get_config('user_credit_maximum_number_receive_of_credits')) {
+            return $this->error(['message' => __('The number of times attended exceeds the allowed number of times.')]);
         }
 
         DB::transaction(
@@ -46,6 +46,6 @@ class UserCreditController extends FrontendController
             }
         );
 
-        return $this->success(['message' => 'Attended successful.']);
+        return $this->success(['message' => __('Attended successful.')]);
     }
 }
